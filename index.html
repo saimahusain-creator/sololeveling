@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System: Daily Quest & Hunter Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-container">
+        <!-- Left Panel: Character & Inventory -->
+        <div id="character-panel" class="panel">
+            <div class="panel-header">
+                <h2>HUNTER PROFILE</h2>
+            </div>
+            
+            <div class="avatar-container">
+                <div id="avatar" class="avatar male">
+                    <!-- CSS drawn character -->
+                    <div class="avatar-head" id="av-head">
+                        <div class="avatar-hair" id="av-hair"></div>
+                        <div class="avatar-eyes" id="av-eyes"></div>
+                    </div>
+                    <div class="avatar-body" id="av-body">
+                        <div class="avatar-armor" id="av-armor"></div>
+                    </div>
+                    <div class="avatar-arm left" id="av-arm-l"></div>
+                    <div class="avatar-arm right" id="av-arm-r">
+                        <div class="avatar-weapon" id="av-weapon"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="customization">
+                <h3>Base Appearance</h3>
+                <div class="controls">
+                    <select id="gender-select">
+                        <option value="male">Body Type A (Male)</option>
+                        <option value="female">Body Type B (Female)</option>
+                    </select>
+                    <input type="color" id="skin-color" value="#f1c27d">
+                </div>
+            </div>
+
+            <div class="daily-goal-container">
+                <h3>DAILY QUEST: <span id="daily-progress-text">0/3</span></h3>
+                <input type="number" id="daily-goal-input" value="3" min="1" max="20" title="Set daily task goal">
+                <div class="xp-bar-bg">
+                    <div id="daily-bar-fill" class="xp-bar-fill success"></div>
+                </div>
+            </div>
+
+            <div class="inventory-section">
+                <h3>INVENTORY</h3>
+                <div class="equipped-slots">
+                    <div class="slot" id="eq-weapon" onclick="unequip('weapon')" title="Click to unequip">🗡️ None</div>
+                    <div class="slot" id="eq-armor" onclick="unequip('armor')" title="Click to unequip">👕 None</div>
+                </div>
+                <p class="subtitle" style="font-size: 0.8rem; margin-top: 5px;">(Complete tasks to acquire loot. Fail a task to lose your newest item!)</p>
+                <div class="inventory-grid" id="inventory-grid">
+                    <!-- Items injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: System Quests (Existing UI adapted) -->
+        <div id="app" class="system-ui panel">
+            <header class="system-header">
+                <h1>SYSTEM</h1>
+                <p class="subtitle">YOU HAVE UNREAD MESSAGES</p>
+            </header>
+
+            <div class="player-card">
+                <div class="stats-header">
+                    <h2>PLAYER STATUS</h2>
+                    <div class="level-info">
+                        <span class="label">LEVEL</span>
+                        <span id="player-level" class="value text-glow">1</span>
+                    </div>
+                </div>
+                
+                <div class="title-info">
+                    <span class="label">TITLE</span>
+                    <span id="player-title" class="value">E-Rank Hunter</span>
+                </div>
+
+                <div class="xp-container">
+                    <div class="xp-labels">
+                        <span>XP</span>
+                        <span id="xp-text">0 / 100</span>
+                    </div>
+                    <div class="xp-bar-bg">
+                        <div id="xp-bar-fill" class="xp-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quest-board">
+                <div class="quest-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2>DAILY QUEST: SURVIVE</h2>
+                        <p>Complete tasks or face the penalty.</p>
+                    </div>
+                    <button id="break-btn" class="sys-btn" style="border-color: #ffab00; color: #ffab00;">TAKE A BREAK</button>
+                </div>
+
+                <div class="add-task-form" style="grid-template-columns: 1fr auto auto;">
+                    <input type="text" id="task-input" placeholder="Enter task" autocomplete="off">
+                    <div style="display: flex; gap: 5px;">
+                        <input type="number" id="time-input" placeholder="Time" min="1" max="1440" style="width: 70px;">
+                        <select id="time-unit" style="padding: 0.5rem; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid var(--border-glow); border-radius: 4px; outline: none; font-family: var(--font-body);">
+                            <option value="min">Min</option>
+                            <option value="hr">Hours</option>
+                        </select>
+                    </div>
+                    <button id="add-task-btn" class="sys-btn">ACCEPT</button>
+                </div>
+
+                <div class="quick-tasks" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <button class="quick-btn" onclick="setQuickTask('Shower', 1, 'hr')">🚿 Shower (1 Hr)</button>
+                    <button class="quick-btn" onclick="setQuickTask('Eat Food', 30, 'min')">🍔 Food (30 Min)</button>
+                    <button class="quick-btn" onclick="setQuickTask('Study', 2, 'hr')">📚 Study (2 Hr)</button>
+                    <button class="quick-btn" onclick="setQuickTask('Workout', 45, 'min')">💪 Workout (45 Min)</button>
+                </div>
+
+                <div class="task-list" id="task-list">
+                    <!-- Tasks will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jumpscare Overlay -->
+    <div id="jumpscare-overlay" class="hidden">
+        <div class="jumpscare-content">
+            <h1 class="penalty-text">PENALTY QUEST INITIATED</h1>
+            <p style="color:red; font-size: 2rem; font-family: Orbitron; z-index: 10;">RECENT PROGRESS LOST</p>
+            <img src="jumpscare.png" alt="Penalty" class="scary-face">
+        </div>
+    </div>
+
+    <!-- Upgrade / Loot Animation Overlay -->
+    <div id="upgrade-overlay" class="hidden">
+        <div class="upgrade-content">
+            <h1 class="upgrade-text" id="upgrade-title">QUEST COMPLETE</h1>
+            <p class="reward-text" id="upgrade-desc">REWARDS ACQUIRED</p>
+            <div id="loot-display" class="loot-display text-glow"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

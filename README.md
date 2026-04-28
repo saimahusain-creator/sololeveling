@@ -1,7 +1,7 @@
 # Solo Leveling System — README
 
 <p align="center">
-  <img src="./public/banner.png" alt="Solo Leveling System Banner" width="100%" />
+  <img src="banner.png" alt="Solo Leveling System Banner" width="100%" />
 </p>
 
 <h1 align="center">⚔️ Solo Leveling System</h1>
